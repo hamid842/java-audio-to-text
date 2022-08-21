@@ -7,7 +7,6 @@ import java.net.http.HttpResponse;
 
 public class AudioToTestApplication {
     public static void main(String[] args) throws Exception {
-
         Transcript transcript = new Transcript();
         transcript.setAudio_url("https://raw.githubusercontent.com/johnmarty3/JavaAPITutorial/main/Thirsty.mp4");
 //      Using Gson to convert to json
@@ -18,7 +17,7 @@ public class AudioToTestApplication {
 //      POST request to create transcript
         HttpRequest postRequest = HttpRequest.newBuilder() // this uses the builder pattern can add all the different elements of our request
                 .uri(new URI("https://api.assemblyai.com/v2/transcript"))
-                .header("Authorization", "2ac53bec91034b9fada160c8c04149ac")
+                .header("Authorization", System.getenv("API_KEY"))
                 .POST(HttpRequest.BodyPublishers.ofString(jsonRequest)) // ofString() : if we want to send json
                         .build(); // finish up the request
 
@@ -34,7 +33,7 @@ public class AudioToTestApplication {
 
         HttpRequest getRequest = HttpRequest.newBuilder()
                 .uri(new URI("https://api.assemblyai.com/v2/transcript/"+transcript.getId()))
-                .header("Authorization", "2ac53bec91034b9fada160c8c04149ac")
+                .header("Authorization", System.getenv("API_KEY"))
                 .GET()
                 .build();
         while (true) {
